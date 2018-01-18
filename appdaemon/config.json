@@ -1,7 +1,7 @@
 {
-  "name": "AppDaemon",
+  "name": "AppDaemonmatt",
   "version": "dev",
-  "slug": "appdaemon",
+  "slug": "appdaemonmatt",
   "description": "Python Apps and HADashboard for Home Assistant",
   "url": "https://community.home-assistant.io/t/community-hass-io-add-on-appdaemon/33823?u=frenck",
   "webui": "http://[HOST]:[PORT:5050]",
@@ -21,12 +21,14 @@
   "options": {
     "log_level": "info",
     "commtype": "websockets",
+    "version": "2.11.2",
     "system_packages": [],
     "python_packages": []
   },
   "schema": {
     "log_level": "match(^(trace|debug|info|notice|warning|error|fatal)$)",
     "commtype": "match(^(websockets|sse)$)",
+    "version": "str",
     "system_packages": ["str"],
     "python_packages": ["str"]
   },

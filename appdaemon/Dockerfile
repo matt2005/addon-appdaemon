@@ -1,5 +1,6 @@
 ARG BUILD_FROM=hassioaddons/base-amd64:1.3.1
 FROM ${BUILD_FROM}
+ARG APPDAEMON_VER='2.1.12'
 
 # Setup base
 RUN \
@@ -11,9 +12,6 @@ RUN \
     \
     && apk add --no-cache \
         python3 \
-    \
-    && pip3 install \
-        appdaemon -pre \
     \
     && apk del --purge .build-dependencies
 

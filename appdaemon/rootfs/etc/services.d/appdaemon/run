@@ -8,8 +8,9 @@ source /usr/lib/hassio-addons/base.sh
 
 declare commtype
 declare log_level
+declare appdaemon_version
 
-# Find the matching Tor log level
+# Find the matching log level
 case "$(hass.string.lower "$(hass.config.get 'log_level')")" in
     all|trace|debug)
         log_level="DEBUG"
@@ -29,6 +30,17 @@ case "$(hass.string.lower "$(hass.config.get 'log_level')")" in
 esac
 
 commtype=$(hass.string.upper "$(hass.config.get 'commtype')")
-
+appdaemon_version=$(pip3 show appdaemon | awk -F"[ ',]+" '/Version: /{print $2}')
+if [[ "$appdaemon_version" == '' ]]
+    then pip3 install appdaemon=="$(hass.config.get 'appdaemon_version')"
+fi
 # Run the AppDaemon
-exec appdaemon -c /config/appdaemon -D "${log_level}" --commtype="${commtype}"
+case "$appdaemon_version" in
+    3.*
+        exec appdaemon -c /config/appdaemon -D "${log_level}" 
+    2.*
+        exec appdaemon -c /config/appdaemon -D "${log_level}" --commtype="${commtype}"
+esac
+
+
+
