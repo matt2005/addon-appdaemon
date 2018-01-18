@@ -13,7 +13,7 @@ RUN \
         python3 \
     \
     && pip3 install \
-        appdaemon==2.1.12 \
+        appdaemon -pre \
     \
     && apk del --purge .build-dependencies
 
