@@ -32,15 +32,19 @@ esac
 commtype=$(hass.string.upper "$(hass.config.get 'commtype')")
 appdaemon_version=$(pip3 show appdaemon | awk -F"[ ',]+" '/Version: /{print $2}')
 if [[ "$appdaemon_version" == '' ]]
-    then pip3 install appdaemon=="$(hass.config.get 'appdaemon_version')"
+    then
+       echo "Appdaemon not installed"
+       appdaemon_version="$(hass.config.get 'version')"
+       echo "Installing AppDaemon" + "$appdaemon_version"
+       pip3 install appdaemon=="$appdaemon_version"
 fi
 # Run the AppDaemon
 case "$appdaemon_version" in
-    3.*
-        exec appdaemon -c /config/appdaemon -D "${log_level}" 
-    2.*
-        exec appdaemon -c /config/appdaemon -D "${log_level}" --commtype="${commtype}"
+    3.*)
+        appdaemon -c /config/appdaemon -D "${log_level}"
+        ;;
+    2.*)
+        appdaemon -c /config/appdaemon -D "${log_level}" --commtype="${commtype}"
+        ;;
 esac
-
-
 

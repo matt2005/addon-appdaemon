@@ -11,8 +11,14 @@ if ! hass.directory_exists '/config/appdaemon'; then
         || hass.die 'Failed to create initial AppDaemon configuration'
 fi
 
-case "$(hass.config.get 'appdaemon_version')" in
-    3.*
-        mv /config/appdaemon/apps.yaml /config/appdaemon/apps/ \
-        || hass.die 'Failed to Move apps.yaml to apps folder'
+case "$(hass.config.get 'version')" in
+    3.*)
+        echo "Appdaemon version 3"
+        if [ -f /config/appdaemon/apps.yaml ];then
+            mv /config/appdaemon/apps.yaml /config/appdaemon/apps/
+        fi
+        ;;
 esac
+echo "Installing appdaemon $(hass.config.get 'version')"
+pip3 install appdaemon=="$(hass.config.get 'version')"
+
